@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Godwin's Beginner Blog</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+        <!-- Font Awesome icons (free version) -->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap) -->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body>
+
+        
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="{% url 'home_view' %}">Godwin's Blog</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'home_view' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'about' %}">About</a></li>
+
+                        {% if user.is_authenticated%}
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'logout' %}">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'create_blog_post' %}">Create</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'login' %}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'register' %}">Register</a></li>
+
+                        {%endif%}
+
+
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle px-lg-3 py-3 py-lg-4" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Categories
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'category' 'Technology' %}">Technology</a></li>
+                                <li><a class="dropdown-item" href="{% url 'category' 'Business' %}">Business</a></li>
+                                <li><a class="dropdown-item" href="{% url 'category' 'Lifestyle' %}">Lifestyle</a></li>
+                                <!-- Add more posts as needed -->
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'contact' %}">Contact</a></li>
+
+                        <form class="d-flex" method="GET" action="{% url 'search_posts' %}">
+                            <input class="form-control me-2 custom-search-input" type="search" placeholder="Search" aria-label="Search" name="q">
+                            <button class="btn btn-outline-success custom-search-button" type="submit">Search</button>
+                        </form>
+                        
+                        <style>
+                            /* Custom styles to reduce the height */
+                            .custom-search-input {
+                                height: 40px;  /* Adjust the height as needed */
+                                padding: 4px 8px;  /* Adjust padding for a compact look */
+                                font-size: 14px;  /* Adjust font size if needed */
+                                border-radius: 5px;
+                            }
+                        
+                            .custom-search-button {
+                                height: 40px;  /* Match the button height with the input */
+                                padding: 4px 12px;  /* Adjust padding for better appearance */
+                                font-size: 14px;  /* Adjust font size to match the input */
+                                border-radius: 5px;
+                            }
+                        </style>
+                        
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-primary d-flex align-items-center" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+              <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </svg>
+            
+            <div>
+              {{message}}
+            </div>
+          </div>
+          </div>
+        {% endfor %}
+        {% endif %}
+
+        <!-- Main content -->
+        <main>
+            
+            {% block content %}
+            <!-- This space here is going to be the uniqueness of another page -->
+            {% endblock %}
+        </main>
+
+        <!-- Footer -->
+        <footer class="border-top">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="small text-center text-muted fst-italic">Copyright &copy; Godwin's Website 2024</div>
+                    </div>
+                </div>
+            </div>
+        </footer>

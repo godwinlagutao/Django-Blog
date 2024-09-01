@@ -1,0 +1,46 @@
+<!-- search_results.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<header class="masthead" style="background-image: url('{% static 'assets/img/binoculars.jpg' %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Search Here</h1>
+                    <span class="subheading"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<div class="container px-4 px-lg-5">
+    <h2>Search Results{% if query %} for "{{ query }}"{% endif %}</h2>
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            {% if posts %}
+                {% for post in posts %}
+                    <div class="post-preview">
+                        <a href="{% url 'post' post.id %}">
+                            <h2 class="post-title">{{ post.title }}</h2>
+                            <h3 class="post-subtitle">{{ post.short_content }}</h3>
+                        </a>
+                        <p class="post-meta">
+                            Posted by <a href="{% url 'about' %}">{{ post.author }}</a>
+                            on {{ post.created_at }}
+                        </p>
+                    </div>
+                    <hr>
+                {% endfor %}
+            {% else %}
+                <p>No posts found for your query.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
